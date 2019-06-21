@@ -11,4 +11,12 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-app.listen(8080);
+app.post('/login', function(req, res) {
+
+});
+
+app.post('/register', function(req, res) {
+
+});
+
+app.listen(8000);
