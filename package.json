@@ -9,7 +9,10 @@
         "ejs-locals": "^1.0.2",
         "express": "^4.6.1",
         "express-ejs-layouts": "^2.5.0",
+        "express-session": "^1.16.2",
+        "ioredis": "^4.10.0",
         "nvm": "0.0.4",
-        "openid-client": "^3.1.2"
+        "openid-client": "^3.1.2",
+        "uuid": "^3.3.2"
     }
 }

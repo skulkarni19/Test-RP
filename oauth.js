@@ -1,16 +1,33 @@
-const { Issuer } = require('openid-client')
-const UUID = require('uuid')
-const Url = require('url')
-const Config = require('./config')
-const clientID = Config.clientID
-const clientSecret = Config.clientSecret
+const OpenIDClient = require("./utils/tkoauth")
+const Config = require("./config")
 
-const getClient = async() => {
-    const issuer = await Issuer.discover(Config.walletServiceUrl)
-    const client = new issuer.client({
-        client_id: clientID,
-        client_secret: clientSecret
-    })
+const invalidAuth = "Invalid authentication information"
+const invalidReq = "Invalid wallet request"
+
+const clients = {
+    "login": new OpenIDClient(["openid"], "login"),
+    "register": new OpenIDClient(Config.registerScopes, "register")
 }
 
-const client = await getClient
+module.exports = {
+    register: async function (req, res) {
+        console.log("Beginning registration")
+        let claims = null
+        const url = await clients['register'].getAuthUri(req.query, claims)
+        console.log("Redirecting to <<<<< " + url)
+        return res.redirect(url)
+    },
+
+    login: function (req, res) {
+
+    },
+
+    callback: async function (req, res) {
+        const err = req.query.error
+        console.log(req.query.state)
+        const flow = OpenIDClient.getCallbackFlow(req)
+
+        // TODO: Finish registration flow
+    }
+
+}
