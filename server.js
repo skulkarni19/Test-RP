@@ -1,22 +1,31 @@
 // server.js
 // load the things we need
-var express = require('express');
-var app = express();
+let express = require('express');
+let expressLayouts = require("express-ejs-layouts");
+const oauth = require("./oauth")
+const bodyParser = require("body-parser");
 
-// set the view engine to ejs
-app.set('view engine', 'ejs');
+let app = express();
+app.use(expressLayouts);
+
+
+app.set('views', 'views');
+app.engine('html', require('ejs-locals'));
+app.set('view engine', 'html');
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // index page 
 app.get('/', function(req, res) {
-    res.render('index');
+    res.render('index.html');
 });
 
 app.post('/login', function(req, res) {
-
+    res.render('index.html');
 });
 
 app.post('/register', function(req, res) {
-
+    console.log(req.body.email);
+    res.render('index.html');
 });
 
 app.listen(8000);
