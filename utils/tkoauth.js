@@ -11,9 +11,6 @@ const nonceKeyPrefix = 'nonce-'
 const saveNonce = (key, nonce) => Cache.set(nonceKeyPrefix + key, nonce)
 const getNonce = key => Cache.get(nonceKeyPrefix + key)
 
-// Our discovery endpoint takes a while :)
-Issuer.defaultHttpOptions = { timeout: 3500 }
-
 const getClient = async() => {
   const issuer = await Issuer.discover(Config.walletServiceUrl)
   await issuer.keystore(true)
@@ -21,6 +18,7 @@ const getClient = async() => {
     client_id: clientId,
     client_secret: clientSecret
   })
+
   client.CLOCK_TOLERANCE = 5 // to allow a 5 second skew
   return client
 }
