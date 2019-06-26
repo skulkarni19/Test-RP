@@ -1,13 +1,20 @@
 // server.js
 // load the things we need
 let express = require('express');
-let expressLayouts = require("express-ejs-layouts");
+let expressLayouts = require("express-ejs-layouts")
+let session = require('express-session')
 const oauth = require("./oauth")
-const bodyParser = require("body-parser");
+const bodyParser = require("body-parser")
+const dotenv = require('dotenv').config()
 const Config = require('./config')
 
-let app = express();
-app.use(expressLayouts);
+let app = express()
+app.use(expressLayouts)
+app.use(session({
+    name: 'session',
+    secret: process.env.SESSION,
+    maxAge: 60 * 60 * 1000 // 1 hour
+}))
 
 
 app.set('views', 'views');
