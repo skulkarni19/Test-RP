@@ -22,7 +22,7 @@ module.exports = {
     login: async function (req, res) {
         console.log("Begining login")
         let claims = null
-        const url = await clients["login"].getAuthUri(req.query, claims)
+        const url = await clients["login"].getAuthUri(req, claims)
         return res.redirect(url)
     },
 
