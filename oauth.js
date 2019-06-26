@@ -47,7 +47,7 @@ module.exports = {
             return
         }
 
-        console.log(userInfo[given_name])
+        console.log(userInfo)
 
         if (!userInfo) {
             // eslint-disable-next-line no-console

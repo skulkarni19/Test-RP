@@ -15,7 +15,7 @@ const getClient = async() => {
     client_secret: clientSecret
   })
 
-  client.CLOCK_TOLERANCE = 5 // to allow a 5 second skew
+  client.CLOCK_TOLERANCE = 6 // to allow a 5 second skew
   return client
 }
 
