@@ -4,6 +4,9 @@
     "description": "",
     "author": "Sidh Kulkarni",
     "license": "ISC",
+    "engines": {
+        "node": ">=0.12"
+    },
     "dependencies": {
         "dotenv": "^8.0.0",
         "ejs": "^2.5.6",
