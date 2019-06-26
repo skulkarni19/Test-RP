@@ -10,7 +10,7 @@ const clients = {
 }
 
 module.exports = {
-    register: async function (req, res) {
+    register: async (req, res) => {
         console.log("Beginning registration")
         console.log(req.query)
         let claims = null
@@ -19,17 +19,17 @@ module.exports = {
         return res.redirect(url)
     },
 
-    login: async function (req, res) {
+    login: async (req, res) => {
         console.log("Begining login")
         let claims = null
         const url = await clients["login"].getAuthUri(req, claims)
         return res.redirect(url)
     },
 
-    callback: async function (req, res) {
+    callback: async (req, res) => {
         const err = req.query.error
         console.log(req.query.state)
-        const flow = OpenIDClient.getCallbackFlow(req)
+        const flow = req.query.state
 
         if (err) {
             res.status(403).send(invalidAuth)

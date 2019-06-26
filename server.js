@@ -5,7 +5,6 @@ let expressLayouts = require("express-ejs-layouts")
 let session = require('express-session')
 const oauth = require("./oauth")
 const bodyParser = require("body-parser")
-const dotenv = require('dotenv').config()
 const Config = require('./config')
 
 let app = express()
@@ -19,27 +18,27 @@ app.use(session({
 }))
 
 
-app.set('views', 'views');
 app.engine('html', require('ejs-locals'));
 app.set('view engine', 'html');
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // index page 
-app.get('/', function(req, res) {
+app.get('/', (_, res) => {
     res.render('index.html');
 });
 
-app.get('/login/:login_hint?', function(req, res) {
+app.get('/login/:login_hint?', (req, res) => {
     oauth.login(req, res)
 })
 
-app.get('/register/:login_hint?', function(req, res) {
+app.get('/register/:login_hint?', (req, res) => {
     oauth.register(req, res)
 });
 
-app.get(Config.callbackRoute, function(req, res) {
+app.get(Config.callbackRoute, (req, res) => {
     console.log("Hitting callback")
     oauth.callback(req, res)
 })
 
-app.listen(Config.port);
+app.listen(Config.port, () => {
+    console.log("Server is running")
+})

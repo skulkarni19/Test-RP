@@ -1,7 +1,6 @@
 const { Issuer } = require('openid-client')
 const UUID = require('uuid')
 const Url = require("url")
-const session = require('express-session')
 const Config = require("../config")
 const Host = Config.host
 const clientId = Config.clientId
@@ -26,10 +25,6 @@ class OpenIDClient {
   constructor(scopes, flow) {
     this._scopes = scopes
     this._flow = flow
-  }
-
-  static getCallbackFlow(req) {
-    return req.query.state.split(':')[0]
   }
 
   async getAuthUri(req, claims) {
