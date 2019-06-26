@@ -1,4 +1,4 @@
-const host = process.env.host || "http://localhost:8000"
+const host = process.env.HOST || "http://localhost:8000"
 
 module.exports = {
     host: host,
