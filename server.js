@@ -13,7 +13,9 @@ app.use(expressLayouts)
 app.use(session({
     name: 'session',
     secret: process.env.SESSION,
-    maxAge: 60 * 60 * 1000 // 1 hour
+    maxAge: 60 * 60 * 1000, // 1 hour
+    resave: false,
+    saveUninitialized: true,
 }))
 
 
@@ -27,16 +29,8 @@ app.get('/', function(req, res) {
     res.render('index.html');
 });
 
-app.post('/login', function(req, res) {
-    res.redirect('/register/?login_hint=' + encodeURIComponent(req.body.email))
-});
-
 app.get('/login/:login_hint?', function(req, res) {
     oauth.login(req, res)
-})
-
-app.post('/register', function(req, res) {
-    res.redirect('/register/?login_hint=' + encodeURIComponent(req.body.email))
 })
 
 app.get('/register/:login_hint?', function(req, res) {

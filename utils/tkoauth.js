@@ -1,19 +1,15 @@
 const { Issuer } = require('openid-client')
 const UUID = require('uuid')
 const Url = require("url")
-const Cache = require('./cache')
+const session = require('express-session')
 const Config = require("../config")
 const Host = Config.host
 const clientId = Config.clientId
 const clientSecret = Config.clientSecret
 
-const nonceKeyPrefix = 'nonce-'
-const saveNonce = (key, nonce) => Cache.set(nonceKeyPrefix + key, nonce)
-const getNonce = key => Cache.get(nonceKeyPrefix + key)
-
 const getClient = async() => {
   const issuer = await Issuer.discover(Config.walletServiceUrl)
-  await issuer.keystore(true)
+  // await issuer.keystore(true)
   const client =  new issuer.Client({
     client_id: clientId,
     client_secret: clientSecret
@@ -36,26 +32,25 @@ class OpenIDClient {
     return req.query.state.split(':')[0]
   }
 
-  async getAuthUri(query, claims) {
+  async getAuthUri(req, claims) {
     const nonce = UUID.v4()
-    const id = UUID.v4()
-    saveNonce(id, nonce)
+    req.session.nonce = nonce
+    req.session.state = this._flow
     const client = await getClient()
-    console.log(Url.resolve(Host, Config.callbackRoute))
     return client.authorizationUrl(Object.assign({
       redirect_uri: Url.resolve(Host, Config.callbackRoute),
       scope: this._scopes.join(' '),
-      state: this._flow + ':' + id,
+      state: this._flow,
       nonce
-    }, query, claims ? {claims: JSON.stringify(claims)} : {}))
+    }, req.query, claims ? {claims: JSON.stringify(claims)} : {}))
   }
 
   async getCallbackToken(req) {
     const url = Url.resolve(Host, Config.callbackRoute)
     const client = await getClient()
     const params = client.callbackParams(req)
-    const state = req.query.state
-    const nonce = await getNonce(state.split(':')[1])
+    const nonce = req.session.nonce
+    const state = req.session.state
     const token = await client.callback(url, params, {state, nonce, response_type: 'code'})
     return client.userinfo(token.access_token)
   }

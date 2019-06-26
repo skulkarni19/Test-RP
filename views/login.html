@@ -1,3 +1,47 @@
 <div>
-    <h1>You are now logged in</h1>
+    <h2>User Info</h2>
+    <div class="card">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">First Name</span>
+            </div>
+            <input type="text" class="form-control" value="<%= userInfo[given_name] %>"></input>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Last Name</span>
+            </div>
+            <input type="text" class="form-control" value="<%= userInfo[family_name] %>"></input>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Birthdate</span>
+            </div>
+            <input type="text" class="form-control" value="<%= userInfo[birthdate] %>"></input>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Gender</span>
+            </div>
+            <input type="text" class="form-control" value="<%= userInfo[gender] %>"></input>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Username</span>
+            </div>
+            <input type="text" class="form-control" value="<%= userInfo[preferred_username] %>"></input>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Sub</span>
+            </div>
+            <input type="text" class="form-control" value="<%= userInfo[sub] %>"></input>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">User ID</span>
+            </div>
+            <input type="text" class="form-control" value="<%= userInfo[user_id] %>"></input>
+        </div>
+    </div>
 </div>

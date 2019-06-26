@@ -12,8 +12,9 @@ const clients = {
 module.exports = {
     register: async function (req, res) {
         console.log("Beginning registration")
+        console.log(req.query)
         let claims = null
-        const url = await clients['register'].getAuthUri(req.query, claims)
+        const url = await clients['register'].getAuthUri(req, claims)
         console.log("Redirecting to <<<<< " + url)
         return res.redirect(url)
     },
@@ -46,7 +47,7 @@ module.exports = {
             return
         }
 
-        console.log("Got user info")
+        console.log(userInfo[given_name])
 
         if (!userInfo) {
             // eslint-disable-next-line no-console
@@ -55,11 +56,6 @@ module.exports = {
             return
         }
 
-        let tokenMSG = `
-            <pre>${JSON.stringify(userInfo, null, 2)}</pre>
-            <br />
-            <p><a href='/'>Home</a></p>
-            `
-        return res.send(tokenMSG)
+        return res.render('login', {userInfo})
     }
 }

@@ -5,6 +5,7 @@
     "author": "Sidh Kulkarni",
     "license": "ISC",
     "dependencies": {
+        "dotenv": "^8.0.0",
         "ejs": "^2.5.6",
         "ejs-locals": "^1.0.2",
         "express": "^4.6.1",
