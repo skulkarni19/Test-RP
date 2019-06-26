@@ -42,5 +42,4 @@ app.get(Config.callbackRoute, function(req, res) {
     oauth.callback(req, res)
 })
 
-
-app.listen(8000);
+app.listen(Config.port);

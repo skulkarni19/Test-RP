@@ -7,7 +7,7 @@ module.exports = {
     callbackRoute: "/oauth/callback",
     clientId: process.env.CLIENTID,
     clientSecret: process.env.CLIENTSECRET,
-    port: process.env.port || 8000,
+    port: process.env.PORT || 8000,
     accessTokenUri: 'https://wallet.trustedkey.com/oauth/token',
     authorizationUri: 'https://wallet.trustedkey.com/oauth/authorize',
     redirectUri: 'https://localhost:8000/oauth/callback',
