@@ -6,6 +6,8 @@ const Host = Config.host
 const clientId = Config.clientId
 const clientSecret = Config.clientSecret
 
+Issuer.defaultHttpOptions = { timeout: 3500 }
+
 const getClient = async() => {
   const issuer = await Issuer.discover(Config.walletServiceUrl)
   // await issuer.keystore(true)
@@ -46,7 +48,7 @@ class OpenIDClient {
     const params = client.callbackParams(req)
     const nonce = req.session.nonce
     const state = req.session.state
-    const token = await client.callback(url, params, {state, nonce, response_type: 'code'})
+    const token = await client.authorizationCallback(url, params, {state, nonce, response_type: 'code'})
     return client.userinfo(token.access_token)
   }
 }

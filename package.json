@@ -16,7 +16,8 @@
         "express-session": "^1.16.2",
         "ioredis": "^4.10.0",
         "nvm": "0.0.4",
-        "openid-client": "^3.1.2",
+        "openid-client": "^2.4.5",
+        "trustedkey-js": "^0.7.5",
         "uuid": "^3.3.2"
     }
 }

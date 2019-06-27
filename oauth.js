@@ -1,5 +1,7 @@
 const OpenIDClient = require("./utils/tkoauth")
 const Config = require("./config")
+const OID = require('trustedkey-js/oid')
+const TokenIssuerService = require("trustedkey-js/services/trustedkeyissuerservice")
 
 const invalidAuth = "Invalid authentication information"
 const invalidReq = "Invalid wallet request"
@@ -13,7 +15,7 @@ module.exports = {
     register: async (req, res) => {
         console.log("Beginning registration")
         console.log(req.query)
-        let claims = null
+        let claims = {userinfo: {'https://auth.trustedkey.com/publicKey':{essential:true}}}
         const url = await clients['register'].getAuthUri(req, claims)
         console.log("Redirecting to <<<<< " + url)
         return res.redirect(url)
@@ -54,6 +56,23 @@ module.exports = {
             console.error("No token was received")
             res.status(403).send(invalidReq)
             return
+        }
+
+        if (flow == 'register') {
+            try {
+                let publicKey = userInfo['https://auth.trustedkey.com/publicKey']
+
+                console.log("Got public key: ", publicKey)
+                const issuerService = new TokenIssuerService(Config.issuerServiceUrl, Config.clientId, Config.clientSecret)
+    
+                let expiry = new Date()
+                expiry.setDate(expiry.getDate() + 365)
+    
+                await issuerService.issueClaims({'attributes': Config.issuanceClaims, 'expiry': expiry, 'pubkey': publicKey})
+            } catch (e) {
+                const msg = "Failed to issue claims"
+                return res.status(500).send(msg)
+            }
         }
 
         return res.render('login', {userInfo})

@@ -8,5 +8,12 @@ module.exports = {
     clientId: process.env.CLIENTID,
     clientSecret: process.env.CLIENTSECRET,
     port: process.env.PORT || 8000,
-    registerScopes: ['openid', 'profile']
+    registerScopes: ['openid', 'profile'],
+    issuanceClaims: {
+        name: "John S. Doe",
+        given_name: "John",
+        family_name: "Doe",
+        gender: "Male",
+        birthdate: "120101000000Z"
+    }
 }
