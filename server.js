@@ -4,14 +4,13 @@ let express = require('express');
 let expressLayouts = require("express-ejs-layouts")
 let session = require('express-session')
 const oauth = require("./oauth")
-const bodyParser = require("body-parser")
 const Config = require('./config')
 
 let app = express()
 app.use(expressLayouts)
 app.use(session({
     name: 'session',
-    secret: process.env.SESSION,
+    secret: Config.sessionSecret,
     maxAge: 60 * 60 * 1000, // 1 hour
     resave: false,
     saveUninitialized: true,

@@ -1,6 +1,9 @@
+require('dotenv').config()
+
 const host = process.env.HOST || "http://localhost:8000"
 
 module.exports = {
+    sessionSecret: process.env.SESSION,
     host,
     issuerServiceUrl: process.env.ISSUER_URL || "https://issuer.trustedkey.com",
     walletServiceUrl: process.env.WALLET_URL || "https://wallet.trustedkey.com",
