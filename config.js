@@ -17,6 +17,12 @@ module.exports = {
         given_name: "John",
         family_name: "Doe",
         gender: "Male",
-        birthdate: "120101000000Z"
+        birthdate: "120101000000Z",
+        address: {
+            formatted: {
+                endpoint: '/address',
+                loa: 1.0
+            }
+        }
     }
 }

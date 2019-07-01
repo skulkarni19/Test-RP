@@ -1,3 +1,5 @@
+const RP = require("request-promise-native")
+
 const OpenIDClient = require("./utils/tkoauth")
 const Config = require("./config")
 const Uuid = require('uuid')
@@ -20,6 +22,19 @@ const OidToClaim = new Map(
       .map(k => k.reverse())
       .filter(k => !/_verified$/.test(k))
 )
+
+function getDistributedClaimDetails(userInfo, claimName){
+    let claimObj = {}
+    if (userInfo && userInfo.hasOwnProperty('_claim_names') && userInfo._claim_names.hasOwnProperty(claimName)){
+      // eslint-disable-next-line security/detect-object-injection
+      const claimDetails = userInfo._claim_sources[userInfo._claim_names[claimName]]
+  
+      // eslint-disable-next-line security/detect-object-injection
+      const claimSerialNo = userInfo._claim_names[claimName]
+      claimObj = {...claimDetails, claimSerialNo}
+    }
+    return claimObj
+  }
 
 module.exports = {
     register: async (req, res) => {
@@ -109,6 +124,24 @@ module.exports = {
                 const msg = "Failed to issue claims"
                 return res.status(500).send(msg)
             }
+        }
+
+        try {
+            const issuedDCClaim = getDistributedClaimDetails(userInfo, 'address')
+
+            claim = await RP({
+                uri: issuedDCClaim.endpoint + `?claimSerialNo=${issuedDCClaim.claimSerialNo}`,
+                method: 'GET',
+                headers: {
+                  'Authorization': 'Bearer ' + issuedDCClaim.access_token
+                },
+                json: true
+            })
+    
+            console.log(claim)
+        } catch (e) {
+            console.log(e)
+            return res.status(500).send("Failed to get distributed claim")
         }
 
         return res.render('login', {userInfo})
